@@ -1,6 +1,10 @@
 <template>
   <div>
-    Placeholder
+    <label for="add-memory-prompt">Prompt</label>
+    <textarea id="add-memory-prompt"/>
+    <label for="add-memory-details">Memory</label>
+    <textarea id="add-memory-details"></textarea>
+    <button type="submit">Add Memory</button>
   </div>
 </template>
 
@@ -12,18 +16,15 @@ export default class AddMemory extends Vue {}
 </script>
 
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+label{
+  float: left;
+  font-weight: bold;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+textarea{
+  display: block;
+  width: 100%;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+#add-memory-details {
+  min-height: 10em;
 }
 </style>

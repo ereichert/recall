@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <AddMemory/>
+    <h1>Recall</h1>
+    <div id="main-content">
+      <AddMemory/>
+    </div>
   </div>
 </template>
 
@@ -24,5 +27,9 @@ export default class App extends Vue {}
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+#main-content{
+  margin-left: 10%;
+  margin-right: 10%;
 }
 </style>
