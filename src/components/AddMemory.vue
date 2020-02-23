@@ -3,7 +3,7 @@
     <label for="add-memory-prompt">Prompt</label>
     <textarea id="add-memory-prompt"/>
     <label for="add-memory-details">Memory</label>
-    <textarea id="add-memory-details"></textarea>
+    <textarea id="add-memory-details"/>
     <button type="submit">Add Memory</button>
   </div>
 </template>
