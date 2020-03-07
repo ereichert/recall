@@ -4,15 +4,21 @@
     <textarea id="add-memory-prompt"/>
     <label for="add-memory-details">Memory</label>
     <textarea id="add-memory-details"/>
-    <button type="submit">Add Memory</button>
+    <button type="submit" @click="addMemory">Add Memory</button>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import MemoryService from '../services/MemoryService';
 
 @Component
-export default class AddMemory extends Vue {}
+export default class AddMemory extends Vue {
+  // eslint-disable-next-line class-methods-use-this
+  addMemory(): void {
+    MemoryService.addMemory();
+  }
+}
 </script>
 
 <style scoped>
