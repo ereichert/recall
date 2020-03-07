@@ -9,7 +9,7 @@ const isDevelopment = process.env.NODE_ENV !== 'production';
 let browserWindow: BrowserWindow | null;
 protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true, standard: true } }]);
 
-function createWindow() {
+function createWindow(): void {
   browserWindow = new BrowserWindow({
     width: 800,
     height: 600,
