@@ -1,5 +1,11 @@
+import sqlite3 from 'sqlite3';
+
 export default class MemoryService {
-  static addMemory(): void {
+  static addMemory(prompt: string, memory: string): void {
     console.log('called the service');
+    const db = new sqlite3.Database('./data/recall_test.db');
+    const stmt = db.prepare('INSERT INTO memory(prompt, memory) values("third prompt", "third memory");');
+    stmt.run();
+    stmt.finalize();
   }
 }

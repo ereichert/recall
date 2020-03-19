@@ -16,7 +16,7 @@ import MemoryService from '../services/MemoryService';
 export default class AddMemory extends Vue {
   // eslint-disable-next-line class-methods-use-this
   addMemory(): void {
-    MemoryService.addMemory();
+    MemoryService.addMemory('placeholder prompt', 'placeholder memory');
   }
 }
 </script>
