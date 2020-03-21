@@ -4,7 +4,8 @@ import MemoryService from '@/services/MemoryService';
 
 test('When the new memory is submitted it should be submitted to the repository.', async () => {
   const { getByText } = render(AddMemory);
-  const spy = jest.spyOn(MemoryService, 'addMemory');
+  const spy = jest.spyOn(MemoryService, 'addMemory')
+    .mockImplementation(() => { console.log('ran the db query in add memory tests'); });
 
   const addMemoryButton = getByText('Add Memory');
 
