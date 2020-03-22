@@ -1,5 +1,13 @@
+import sqlite3 from 'sqlite3';
 import MemoryService from '@/services/MemoryService';
 
-test('When the new memory is submitted it should be submitted to the repository.', async () => {
-  await MemoryService.addMemory('new prompt', 'new memory');
+describe('When a prompt and memory are submitted to the addMemory function', () => {
+  let db;
+
+  beforeEach(() => {
+    db = new sqlite3.Database('./data/recall_test.db');
+  });
+  it('the MemoryService should store the memory.', () => {
+    MemoryService.addMemory('fifth prompt', 'fifth memory');
+  });
 });
