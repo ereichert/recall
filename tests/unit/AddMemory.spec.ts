@@ -1,6 +1,6 @@
 import { render, fireEvent } from '@testing-library/vue';
 import AddMemory from '@/components/AddMemory.vue';
-import MemoryService from '@/services/MemoryService';
+import * as MemoryService from '@/services/MemoryService';
 
 test('When the new memory is submitted it should be submitted to the repository.', async () => {
   const { getByText } = render(AddMemory);

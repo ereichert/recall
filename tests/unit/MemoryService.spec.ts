@@ -1,5 +1,5 @@
 import sqlite3 from 'sqlite3';
-import MemoryService from '@/services/MemoryService';
+import * as MemoryService from '@/services/MemoryService';
 
 describe('When a prompt and memory are submitted to the addMemory function', () => {
   let db;

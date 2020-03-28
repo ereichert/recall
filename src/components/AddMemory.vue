@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import MemoryService from '../services/MemoryService';
+import * as MemoryService from '../services/MemoryService';
 
 @Component
 export default class AddMemory extends Vue {
