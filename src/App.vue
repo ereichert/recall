@@ -11,6 +11,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import AddMemory from './components/AddMemory.vue';
 import * as ConfigService from './services/ConfigService';
+import { ConfigKeys } from './services/ConfigService';
 
 @Component({
   components: {
@@ -23,7 +24,7 @@ export default class App extends Vue {
   constructor() {
     super();
     ConfigService.initConfig(process.env.NODE_ENV === 'production');
-    const possibleAppName = ConfigService.get('appName');
+    const possibleAppName = ConfigService.get(ConfigKeys.APP_NAME);
     if (possibleAppName) {
       this.appName = possibleAppName;
     }
