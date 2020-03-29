@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>Recall</h1>
+    <h1>{{ appName }}</h1>
     <div id="main-content">
       <AddMemory/>
     </div>
@@ -10,13 +10,25 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import AddMemory from './components/AddMemory.vue';
+import * as ConfigService from './services/ConfigService';
 
 @Component({
   components: {
     AddMemory,
   },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  appName = 'missing app name';
+
+  constructor() {
+    super();
+    ConfigService.initConfig(process.env.NODE_ENV === 'production');
+    const possibleAppName = ConfigService.get('appName');
+    if (possibleAppName) {
+      this.appName = possibleAppName;
+    }
+  }
+}
 </script>
 
 <style>
