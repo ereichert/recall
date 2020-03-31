@@ -12,6 +12,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import AddMemory from './components/AddMemory.vue';
 import * as ConfigService from './services/ConfigService';
 import { ConfigKeys } from './services/ConfigService';
+import * as MemoryService from './services/MemoryService';
 
 @Component({
   components: {
@@ -28,6 +29,7 @@ export default class App extends Vue {
     if (possibleAppName) {
       this.appName = possibleAppName;
     }
+    MemoryService.initWithConfig();
   }
 }
 </script>
