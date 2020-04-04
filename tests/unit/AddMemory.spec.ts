@@ -6,7 +6,10 @@ describe('The AddMemory component', () => {
   it('When the new memory is submitted it should be submitted to the repository.', async () => {
     const { getByText } = render(AddMemory);
     const spy = jest.spyOn(MemoryService, 'addMemory')
-      .mockImplementation(() => { console.log('ran the db query in add memory tests'); });
+      .mockImplementation(() => {
+        console.log('ran the db query in add memory tests');
+        return Promise.resolve(100);
+      });
 
     const addMemoryButton = getByText('Add Memory');
 

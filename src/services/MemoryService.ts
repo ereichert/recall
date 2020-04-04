@@ -1,25 +1,24 @@
-import sqlite3, { Database } from 'sqlite3';
+import sqlite, { Database } from 'sqlite';
 import * as ConfigService from './ConfigService';
 import { ConfigKeys } from './ConfigService';
 
 let dbLocation: string;
-let db: Database;
+let dbPromise: Promise<Database>;
 
 export function initDbWithLocation(location: string): void {
   dbLocation = location;
-  db = new sqlite3.Database(dbLocation);
+  dbPromise = sqlite.open(dbLocation);
 }
 
 export function initWithConfig(): void {
   const possibleDbLocation = ConfigService.get(ConfigKeys.DB_LOCATION);
   if (possibleDbLocation) {
-    dbLocation = possibleDbLocation;
-    db = new sqlite3.Database(dbLocation);
+    initDbWithLocation(possibleDbLocation);
   }
 }
 
-export function addMemory(prompt: string, memory: string): void {
-  const stmt = db.prepare('INSERT INTO memory(prompt, memory) values(?, ?);', prompt, memory);
-  stmt.run();
-  stmt.finalize();
+export async function addMemory(prompt: string, memory: string): Promise<number> {
+  const db = await dbPromise;
+  return db.run('INSERT INTO memory(prompt, memory) values(?, ?);', prompt, memory)
+    .then((statement) => statement.lastID);
 }
