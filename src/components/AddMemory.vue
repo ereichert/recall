@@ -10,13 +10,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import MemoryService from '../services/MemoryService';
+import * as MemoryService from '../services/MemoryService';
 
 @Component
 export default class AddMemory extends Vue {
   // eslint-disable-next-line class-methods-use-this
   addMemory(): void {
-    MemoryService.addMemory();
+    // TODO: Track the prompts and memories and pass them to the dB call.
+    MemoryService.addMemory('placeholder prompt', 'placeholder memory');
   }
 }
 </script>
