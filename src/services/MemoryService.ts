@@ -26,6 +26,6 @@ export function initWithConfig(): void {
 
 export async function addMemory(prompt: string, memory: string): Promise<number> {
   const db = await dbPromise;
-  return db.run('INSERT INTO memory(prompt, memory) values(?, ?);', prompt, memory)
+  return db.run('INSERT INTO memories(prompt, memory) values(?, ?);', prompt, memory)
     .then((statement) => statement.lastID);
 }
