@@ -1,6 +1,7 @@
 import * as MemoryService from '@/services/MemoryService';
 import sqlite, { Database } from 'sqlite';
 import { promises as asyncFS } from 'fs';
+import MemoryRecord from '@/models/MemoryRecord';
 
 const TEST_DB_LOCATION = './test_data/memory_service_test.db';
 let testDbPromise: Promise<Database>;
@@ -9,7 +10,7 @@ const createDb = async (dbLocation: string): Promise<void> => {
   console.log('Creating the MemoryService test database.');
   testDbPromise = sqlite.open(dbLocation);
   const testDb = await testDbPromise;
-  testDb.exec('CREATE TABLE memories (mem_id INTEGER PRIMARY KEY, prompt TEXT, memory TEXT)');
+  testDb.exec('CREATE TABLE memories (mem_id INTEGER PRIMARY KEY, prompt TEXT, details TEXT)');
 };
 
 const deleteExistingTestDb = async (): Promise<void> => asyncFS.unlink(TEST_DB_LOCATION);
@@ -30,13 +31,13 @@ describe('When a prompt and memory are submitted to the addMemory function', () 
 
 
     it('the MemoryService should store the memory and return the memory id.', async () => {
-      const returnedId = await MemoryService.addMemory('new prompt', 'new memory');
+      const returnedId = await MemoryService.addMemory(new MemoryRecord('new prompt', 'new memory'));
 
       expect(returnedId).toBeGreaterThan(0);
     });
 
     it('the MemoryService should store the memory and be able to return that memory by id.', async () => {
-      const returnedId = await MemoryService.addMemory('new prompt', 'new memory');
+      const returnedId = await MemoryService.addMemory(new MemoryRecord('new prompt', 'new memory'));
 
       const testDb = await testDbPromise;
       const returnedMemory = await testDb.get('SELECT * FROM memories where mem_id = ?;', returnedId);
@@ -44,7 +45,7 @@ describe('When a prompt and memory are submitted to the addMemory function', () 
       expect(returnedMemory).toEqual({
         mem_id: returnedId, // eslint-disable-line @typescript-eslint/camelcase
         prompt: 'new prompt',
-        memory: 'new memory',
+        details: 'new memory',
       });
     });
   });
@@ -53,7 +54,7 @@ describe('When a prompt and memory are submitted to the addMemory function', () 
     it('should throw an exception if the database is not open.', async () => {
       await MemoryService.closeDb();
 
-      await expect(MemoryService.addMemory('exception prompt', 'exception memory'))
+      await expect(MemoryService.addMemory(new MemoryRecord('exception prompt', 'exception memory')))
         .rejects.toThrow('SQLITE_MISUSE: Database is closed');
     });
   });
