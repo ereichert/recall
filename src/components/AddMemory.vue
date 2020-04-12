@@ -1,9 +1,9 @@
 <template>
   <div>
     <label for="add-memory-prompt">Prompt</label>
-    <textarea id="add-memory-prompt"/>
+    <textarea id="add-memory-prompt" v-model="memoryRecord.prompt"/>
     <label for="add-memory-details">Memory</label>
-    <textarea id="add-memory-details"/>
+    <textarea id="add-memory-details" v-model="memoryRecord.details"/>
     <button type="submit" @click="addMemory">Add Memory</button>
   </div>
 </template>
@@ -11,13 +11,15 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import * as MemoryService from '../services/MemoryService';
+import MemoryRecord from '../models/MemoryRecord';
 
 @Component
 export default class AddMemory extends Vue {
+  memoryRecord: MemoryRecord = new MemoryRecord();
+
   // eslint-disable-next-line class-methods-use-this
   addMemory(): void {
-    // TODO: Track the prompts and memories and pass them to the dB call.
-    MemoryService.addMemory('placeholder prompt', 'placeholder memory');
+    MemoryService.addMemory(this.memoryRecord);
   }
 }
 </script>

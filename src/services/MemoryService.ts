@@ -1,4 +1,5 @@
 import sqlite, { Database } from 'sqlite';
+import MemoryRecord from '@/models/MemoryRecord';
 import * as ConfigService from './ConfigService';
 import { ConfigKeys } from './ConfigService';
 
@@ -24,8 +25,8 @@ export function initWithConfig(): void {
   }
 }
 
-export async function addMemory(prompt: string, memory: string): Promise<number> {
+export async function addMemory(memoryRecord: MemoryRecord): Promise<number> {
   const db = await dbPromise;
-  return db.run('INSERT INTO memories(prompt, memory) values(?, ?);', prompt, memory)
+  return db.run('INSERT INTO memories(prompt, details) values(?, ?);', memoryRecord.prompt, memoryRecord.details)
     .then((statement) => statement.lastID);
 }
