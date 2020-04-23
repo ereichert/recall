@@ -2,6 +2,7 @@
   <div id="app">
     <h1>{{ appName }}</h1>
     <div id="main-content">
+      <Menu/>
       <AddMemory/>
     </div>
   </div>
@@ -13,10 +14,12 @@ import AddMemory from './components/AddMemory.vue';
 import * as ConfigService from './services/ConfigService';
 import { ConfigKeys } from './services/ConfigService';
 import * as MemoryService from './services/MemoryService';
+import Menu from './components/Menu.vue';
 
 @Component({
   components: {
     AddMemory,
+    Menu,
   },
 })
 export default class App extends Vue {
