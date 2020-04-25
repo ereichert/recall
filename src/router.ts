@@ -1,14 +1,15 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
+import ReviewMemories from '@/views/ReviewMemories.vue';
 
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
-  // {
-  //   path: '/',
-  //   name: 'Home',
-  //   component: Home,
-  // },
+  {
+    path: '/memories/review',
+    name: 'Review Memories',
+    component: ReviewMemories,
+  },
   // {
   //   path: '/about',
   //   name: 'About',

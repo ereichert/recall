@@ -2,7 +2,7 @@
   <nav>
     <ul>
       <li>Add Memory</li>
-      <li>Review Memories</li>
+      <li><router-link to="/memories/review">Review Memories</router-link></li>
       <li>Edit Memories</li>
     </ul>
   </nav>
