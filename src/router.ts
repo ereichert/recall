@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
-import ReviewMemories from '@/views/ReviewMemories.vue';
+import ReviewMemories from '@/components/ReviewMemories.vue';
+import AddMemory from '@/components/AddMemory.vue';
+import EditMemories from '@/components/EditMemories.vue';
 
 Vue.use(VueRouter);
 
@@ -10,14 +12,16 @@ export const routes: Array<RouteConfig> = [
     name: 'Review Memories',
     component: ReviewMemories,
   },
-  // {
-  //   path: '/about',
-  //   name: 'About',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
-  // },
+  {
+    path: '/memories/add',
+    name: 'Add Memory',
+    component: AddMemory,
+  },
+  {
+    path: '/memories/edit',
+    name: 'Edit Memories',
+    component: EditMemories,
+  },
 ];
 
 export const router = new VueRouter({

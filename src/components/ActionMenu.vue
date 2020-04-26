@@ -1,9 +1,9 @@
 <template>
   <nav>
     <ul>
-      <li>Add Memory</li>
       <li><router-link to="/memories/review">Review Memories</router-link></li>
-      <li>Edit Memories</li>
+      <li><router-link to="/memories/add">Add Memory</router-link></li>
+      <li><router-link to="/memories/edit">Edit Memories</router-link></li>
     </ul>
   </nav>
 </template>

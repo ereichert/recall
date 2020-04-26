@@ -3,10 +3,9 @@
     <h1>{{ appName }}</h1>
     <div id="main-content">
       <ActionMenu/>
-      <AddMemory/>
+      <router-view></router-view>
     </div>
-
-    <router-view></router-view>
+      <!-- <AddMemory/> -->
   </div>
 </template>
 
