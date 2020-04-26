@@ -4,7 +4,7 @@ import ReviewMemories from '@/views/ReviewMemories.vue';
 
 Vue.use(VueRouter);
 
-const routes: Array<RouteConfig> = [
+export const routes: Array<RouteConfig> = [
   {
     path: '/memories/review',
     name: 'Review Memories',
@@ -20,8 +20,6 @@ const routes: Array<RouteConfig> = [
   // },
 ];
 
-const router = new VueRouter({
+export const router = new VueRouter({
   routes,
 });
-
-export default router;
