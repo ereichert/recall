@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
-import ReviewMemories from '@/components/ReviewMemories.vue';
+import MemoryReview from '@/components/MemoryReview.vue';
 import AddMemory from '@/components/AddMemory.vue';
 import EditMemories from '@/components/EditMemories.vue';
 
@@ -9,8 +9,8 @@ Vue.use(VueRouter);
 export const routes: Array<RouteConfig> = [
   {
     path: '/memories/review',
-    name: 'Review Memories',
-    component: ReviewMemories,
+    name: 'Memory Review',
+    component: MemoryReview,
   },
   {
     path: '/memories/add',
