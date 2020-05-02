@@ -5,7 +5,7 @@ import App from '@/App.vue';
 
 const renderActionMenu = (): ComponentHarness => render(ActionMenu, { routes });
 const editMemoriesText = 'Edit Memories';
-const reviewMemoriesText = 'Review Memories';
+const reviewMemoriesText = 'Memory Review';
 const addMemoryText = 'Add Memory';
 
 describe('The ActionMenu component', () => {
