@@ -1,10 +1,17 @@
+Test me
+
 <template>
   <div>
-    <h1>Memory Review</h1>
-    <label>Prompt</label>
-    <p>{{ currentMemoryRecordPrompt() }}</p>
-    <label v-show="showMemoryDetails">Memory Details</label>
-    <p v-show="showMemoryDetails">Memory Placeholder</p>
+    <h2>Memory Review</h2>
+    <div>
+      <label>Prompt</label>
+      <p>{{ currentMemoryRecordPrompt() }}</p>
+    </div>
+    <div>
+      <label v-show="shouldShowMemoryDetails">Memory Details</label>
+      <p v-show="shouldShowMemoryDetails">{{ currentMemoryRecordDetails() }}</p>
+    </div>
+    <button type="submit" @click="showMemoryDetails">Show Memory Details</button>
   </div>
 </template>
 
@@ -19,7 +26,7 @@ export default class MemoryReview extends Vue {
     new MemoryRecord('this is the prompt', 'these are the details'),
   );
 
-  showMemoryDetails = true;
+  shouldShowMemoryDetails = false;
 
   memoriesToBeReviewed: Array<MemoryRecordReview> = [];
 
@@ -30,6 +37,19 @@ export default class MemoryReview extends Vue {
     }
 
     return prompt;
+  }
+
+  currentMemoryRecordDetails(): string {
+    let details = '';
+    if (this.currentMemoryRecord && this.currentMemoryRecord.memoryRecord) {
+      details = this.currentMemoryRecord.memoryRecord.details;
+    }
+
+    return details;
+  }
+
+  showMemoryDetails(): void {
+    this.shouldShowMemoryDetails = true;
   }
 }
 </script>
