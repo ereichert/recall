@@ -3,19 +3,19 @@ Test me
 <template>
   <div>
     <h2>Memory Review</h2>
-    <div>
-      <label>Prompt</label>
+    <div id='prompt-area'>
+      <label for='prompt-text'>Prompt</label>
+      <p id='prompt-text'>{{ currentMemoryRecordPrompt() }}</p>
     </div>
-
-    <!-- <div>
-
-      <p>{{ currentMemoryRecordPrompt() }}</p>
+    <div v-if="shouldShowMemoryDetails">
+      <label for='details-text'>Memory Details</label>
+      <p id='details-text'>memory details placeholder</p>
     </div>
-    <div>
-      <label v-show="shouldShowMemoryDetails">Memory Details</label>
-      <p v-show="shouldShowMemoryDetails">{{ currentMemoryRecordDetails() }}</p>
-    </div>
-    <button type="submit" @click="showMemoryDetails">Show Memory Details</button> -->
+    <button
+      type="submit"
+      v-if="shouldShowMemoryDetailsButton"
+      @click="showMemoryDetails"
+    >Show Memory Details</button>
   </div>
 </template>
 
@@ -30,18 +30,22 @@ export default class MemoryReview extends Vue {
   //   new MemoryRecord('this is the prompt', 'these are the details'),
   // );
 
-  // shouldShowMemoryDetails = false;
+  shouldShowMemoryDetails = false;
+
+  shouldShowMemoryDetailsButton = true;
 
   // memoriesToBeReviewed: Array<MemoryRecordReview> = [];
 
-  // currentMemoryRecordPrompt(): string {
-  //   let prompt = '';
-  //   if (this.currentMemoryRecord && this.currentMemoryRecord.memoryRecord) {
-  //     prompt = this.currentMemoryRecord.memoryRecord.prompt;
-  //   }
+  // eslint-disable-next-line class-methods-use-this
+  currentMemoryRecordPrompt(): string {
+    // let prompt = '';
+    // if (this.currentMemoryRecord && this.currentMemoryRecord.memoryRecord) {
+    //   prompt = this.currentMemoryRecord.memoryRecord.prompt;
+    // }
 
-  //   return prompt;
-  // }
+    // return prompt;
+    return 'this is the prompt';
+  }
 
   // currentMemoryRecordDetails(): string {
   //   let details = '';
@@ -52,11 +56,16 @@ export default class MemoryReview extends Vue {
   //   return details;
   // }
 
-  // showMemoryDetails(): void {
-  //   this.shouldShowMemoryDetails = true;
-  // }
+  showMemoryDetails(): void {
+    this.shouldShowMemoryDetails = true;
+    this.shouldShowMemoryDetailsButton = false;
+  }
 }
 </script>
 
 <style scoped>
+  #prompt-area {
+    border-bottom: solid gray;
+    margin-bottom: 10px;
+  }
 </style>
