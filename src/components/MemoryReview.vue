@@ -11,11 +11,25 @@ Test me
       <label for='details-text'>Memory Details</label>
       <p id='details-text'>memory details placeholder</p>
     </div>
-    <button
-      type="submit"
-      v-if="shouldShowMemoryDetailsButton"
-      @click="showMemoryDetails"
-    >Show Memory Details</button>
+    <div>
+      <div v-if="shouldShowMemoryDetailsButton">
+        <button
+          type="submit"
+          @click="showMemoryDetails"
+        >Show Memory Details</button>
+      </div>
+      <div v-if="shouldShowMemoryResolutionButtons">
+        <button
+          type="submit"
+        >1</button>
+        <button
+          type="submit"
+        >2</button>
+        <button
+          type="submit"
+        >4</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -30,9 +44,11 @@ export default class MemoryReview extends Vue {
   //   new MemoryRecord('this is the prompt', 'these are the details'),
   // );
 
+  shouldShowMemoryDetailsButton = true;
+
   shouldShowMemoryDetails = false;
 
-  shouldShowMemoryDetailsButton = true;
+  shouldShowMemoryResolutionButtons = false;
 
   // memoriesToBeReviewed: Array<MemoryRecordReview> = [];
 
@@ -59,6 +75,7 @@ export default class MemoryReview extends Vue {
   showMemoryDetails(): void {
     this.shouldShowMemoryDetails = true;
     this.shouldShowMemoryDetailsButton = false;
+    this.shouldShowMemoryResolutionButtons = true;
   }
 }
 </script>
