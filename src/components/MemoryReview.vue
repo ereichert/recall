@@ -10,7 +10,7 @@ Test me
     <div id="details-area">
       <div v-if="shouldShowMemoryDetails">
         <label for='details-text'>Memory Details</label>
-        <p id='details-text'>memory details placeholder</p>
+        <p id='details-text'>{{ currentMemoryRecordDetails() }}</p>
       </div>
     </div>
     <div id="control-area">
@@ -24,14 +24,17 @@ Test me
         <button
           type="submit"
           class="resolution-button"
+          @click="handleMemoryResolution"
         >Took too long</button>
         <button
           type="submit"
           class="resolution-button"
+          @click="handleMemoryResolution"
         >A little slow</button>
         <button
           type="submit"
           class="resolution-button"
+          @click="handleMemoryResolution"
         >Quick</button>
       </div>
     </div>
@@ -40,14 +43,12 @@ Test me
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-// import MemoryRecordReview from '@/models/MemoryRecordReview';
-// import MemoryRecord from '../models/MemoryRecord';
+import MemoryRecordReview from '@/models/MemoryRecordReview';
+import MemoryRecord from '../models/MemoryRecord';
 
 @Component
 export default class MemoryReview extends Vue {
-  // currentMemoryRecord: MemoryRecordReview | null = new MemoryRecordReview(
-  //   new MemoryRecord('this is the prompt', 'these are the details'),
-  // );
+  currentMemoryRecord: MemoryRecordReview | undefined = undefined;
 
   shouldShowMemoryDetailsButton = true;
 
@@ -55,32 +56,45 @@ export default class MemoryReview extends Vue {
 
   shouldShowMemoryResolutionButtons = false;
 
-  // memoriesToBeReviewed: Array<MemoryRecordReview> = [];
+  memoriesToBeReviewed: Array<MemoryRecordReview> = [
+    new MemoryRecordReview(
+      new MemoryRecord('this is the prompt', 'these are the details'),
+    ),
+    new MemoryRecordReview(
+      new MemoryRecord('This is the second memory prompt.', 'These are the second memory details'),
+    ),
+  ];
 
-  // eslint-disable-next-line class-methods-use-this
   currentMemoryRecordPrompt(): string {
-    // let prompt = '';
-    // if (this.currentMemoryRecord && this.currentMemoryRecord.memoryRecord) {
-    //   prompt = this.currentMemoryRecord.memoryRecord.prompt;
-    // }
+    let prompt = 'MISSING PROMPT';
+    if (!this.currentMemoryRecord) {
+      this.currentMemoryRecord = this.memoriesToBeReviewed.shift();
+    }
+    if (this.currentMemoryRecord && this.currentMemoryRecord.memoryRecord) {
+      prompt = this.currentMemoryRecord.memoryRecord.prompt;
+    }
 
-    // return prompt;
-    return 'this is the prompt';
+    return prompt;
   }
 
-  // currentMemoryRecordDetails(): string {
-  //   let details = '';
-  //   if (this.currentMemoryRecord && this.currentMemoryRecord.memoryRecord) {
-  //     details = this.currentMemoryRecord.memoryRecord.details;
-  //   }
+  currentMemoryRecordDetails(): string {
+    let details = 'MISSING DETAILS';
+    if (this.currentMemoryRecord && this.currentMemoryRecord.memoryRecord) {
+      details = this.currentMemoryRecord.memoryRecord.details;
+    }
 
-  //   return details;
-  // }
+    return details;
+  }
 
   showMemoryDetails(): void {
     this.shouldShowMemoryDetails = true;
     this.shouldShowMemoryDetailsButton = false;
     this.shouldShowMemoryResolutionButtons = true;
+  }
+
+  handleMemoryResolution(): string {
+    this.currentMemoryRecord = this.memoriesToBeReviewed.shift();
+    return this.currentMemoryRecordPrompt();
   }
 }
 </script>

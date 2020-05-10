@@ -4,6 +4,21 @@ import MemoryReview from '@/components/MemoryReview.vue';
 const showMemoryDetailsButtonText = 'Show Memory Details';
 
 describe('The MemoryReview component', () => {
+  it('should show the second Memory prompt when the Took too long resolution button is clicked.', async () => {
+    const { getByText, getByLabelText } = render(MemoryReview);
+
+    const promptText = getByLabelText('Prompt');
+    expect(promptText.textContent).toEqual('this is the prompt');
+
+    const memoryDetailsButton = getByText(showMemoryDetailsButtonText);
+    await fireEvent.click(memoryDetailsButton);
+    const resolutionButton = getByText('Took too long');
+    fireEvent.click(resolutionButton);
+
+    const secondPromptText = getByLabelText('Prompt');
+    expect(secondPromptText.textContent).toEqual('This is the second memory prompt.');
+  });
+
   it('should show the second Memory resolution button when the Show Memory Details button is clicked.', async () => {
     const { getByText } = render(MemoryReview);
     const memoryDetailsButton = getByText(showMemoryDetailsButtonText);
