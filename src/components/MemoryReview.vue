@@ -24,15 +24,15 @@ Test me
         <button
           type="submit"
           class="resolution-button"
-        >1</button>
+        >Took too long</button>
         <button
           type="submit"
           class="resolution-button"
-        >2</button>
+        >A little slow</button>
         <button
           type="submit"
           class="resolution-button"
-        >4</button>
+        >Quick</button>
       </div>
     </div>
   </div>
@@ -103,5 +103,8 @@ export default class MemoryReview extends Vue {
     height: 100%;
     display: table-cell;
     vertical-align: middle;
+  }
+  .resolution-button {
+    width: 25%;
   }
 </style>

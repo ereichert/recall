@@ -4,28 +4,28 @@ import MemoryReview from '@/components/MemoryReview.vue';
 const showMemoryDetailsButtonText = 'Show Memory Details';
 
 describe('The MemoryReview component', () => {
-  it('should show the second Memory resolution buttons when the Show Memory Details button is clicked.', async () => {
+  it('should show the second Memory resolution button when the Show Memory Details button is clicked.', async () => {
     const { getByText } = render(MemoryReview);
     const memoryDetailsButton = getByText(showMemoryDetailsButtonText);
     await fireEvent.click(memoryDetailsButton);
 
-    getByText('4');
+    getByText('Quick');
   });
 
-  it('should show the second Memory resolution buttons when the Show Memory Details button is clicked.', async () => {
+  it('should show the second Memory resolution button when the Show Memory Details button is clicked.', async () => {
     const { getByText } = render(MemoryReview);
     const memoryDetailsButton = getByText(showMemoryDetailsButtonText);
     await fireEvent.click(memoryDetailsButton);
 
-    getByText('2');
+    getByText('A little slow');
   });
 
-  it('should show the first Memory resolution buttons when the Show Memory Details button is clicked.', async () => {
+  it('should show the first Memory resolution button when the Show Memory Details button is clicked.', async () => {
     const { getByText } = render(MemoryReview);
     const memoryDetailsButton = getByText(showMemoryDetailsButtonText);
     await fireEvent.click(memoryDetailsButton);
 
-    getByText('1');
+    getByText('Took too long');
   });
 
   it('should hide the Show Memory Details button when it is clicked.', async () => {
