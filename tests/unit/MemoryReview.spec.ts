@@ -13,7 +13,7 @@ describe('The MemoryReview component', () => {
     const memoryDetailsButton = getByText(showMemoryDetailsButtonText);
     await fireEvent.click(memoryDetailsButton);
     const resolutionButton = getByText('Took too long');
-    fireEvent.click(resolutionButton);
+    await fireEvent.click(resolutionButton);
 
     const secondPromptText = getByLabelText('Prompt');
     expect(secondPromptText.textContent).toEqual('This is the second memory prompt.');

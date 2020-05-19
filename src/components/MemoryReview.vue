@@ -92,9 +92,15 @@ export default class MemoryReview extends Vue {
     this.shouldShowMemoryResolutionButtons = true;
   }
 
-  handleMemoryResolution(): string {
+  hideMemoryDetails(): void {
+    this.shouldShowMemoryDetails = false;
+    this.shouldShowMemoryDetailsButton = true;
+    this.shouldShowMemoryResolutionButtons = false;
+  }
+
+  handleMemoryResolution(): void {
     this.currentMemoryRecord = this.memoriesToBeReviewed.shift();
-    return this.currentMemoryRecordPrompt();
+    this.hideMemoryDetails();
   }
 }
 </script>
