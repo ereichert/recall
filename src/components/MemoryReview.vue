@@ -48,28 +48,30 @@ import MemoryRecord from '../models/MemoryRecord';
 
 @Component
 export default class MemoryReview extends Vue {
-  currentMemoryRecord: MemoryRecordReview | undefined = undefined;
+  private currentMemoryRecord: MemoryRecordReview | undefined = undefined;
 
-  shouldShowMemoryDetailsButton = true;
+  private shouldShowMemoryDetailsButton = true;
 
-  shouldShowMemoryDetails = false;
+  private shouldShowMemoryDetails = false;
 
-  shouldShowMemoryResolutionButtons = false;
+  private shouldShowMemoryResolutionButtons = false;
 
-  memoriesToBeReviewed: Array<MemoryRecordReview> = [
-    new MemoryRecordReview(
-      new MemoryRecord('this is the prompt', 'these are the details'),
-    ),
-    new MemoryRecordReview(
-      new MemoryRecord('This is the second memory prompt.', 'These are the second memory details'),
-    ),
-  ];
+  private created(): void {
+    this.memoriesToBeReviewed = [
+      new MemoryRecordReview(
+        new MemoryRecord('this is the prompt', 'these are the details'),
+      ),
+      new MemoryRecordReview(
+        new MemoryRecord('This is the second memory prompt.', 'These are the second memory details'),
+      ),
+    ];
+    this.currentMemoryRecord = this.memoriesToBeReviewed.shift();
+  }
 
-  currentMemoryRecordPrompt(): string {
+  private memoriesToBeReviewed: Array<MemoryRecordReview> = [];
+
+  private currentMemoryRecordPrompt(): string {
     let prompt = 'MISSING PROMPT';
-    if (!this.currentMemoryRecord) {
-      this.currentMemoryRecord = this.memoriesToBeReviewed.shift();
-    }
     if (this.currentMemoryRecord && this.currentMemoryRecord.memoryRecord) {
       prompt = this.currentMemoryRecord.memoryRecord.prompt;
     }
@@ -77,7 +79,7 @@ export default class MemoryReview extends Vue {
     return prompt;
   }
 
-  currentMemoryRecordDetails(): string {
+  private currentMemoryRecordDetails(): string {
     let details = 'MISSING DETAILS';
     if (this.currentMemoryRecord && this.currentMemoryRecord.memoryRecord) {
       details = this.currentMemoryRecord.memoryRecord.details;
@@ -86,19 +88,19 @@ export default class MemoryReview extends Vue {
     return details;
   }
 
-  showMemoryDetails(): void {
+  private showMemoryDetails(): void {
     this.shouldShowMemoryDetails = true;
     this.shouldShowMemoryDetailsButton = false;
     this.shouldShowMemoryResolutionButtons = true;
   }
 
-  hideMemoryDetails(): void {
+  private hideMemoryDetails(): void {
     this.shouldShowMemoryDetails = false;
     this.shouldShowMemoryDetailsButton = true;
     this.shouldShowMemoryResolutionButtons = false;
   }
 
-  handleMemoryResolution(): void {
+  private handleMemoryResolution(): void {
     this.currentMemoryRecord = this.memoriesToBeReviewed.shift();
     this.hideMemoryDetails();
   }
