@@ -1,10 +1,22 @@
 import { render, fireEvent } from '@testing-library/vue';
 import MemoryReview from '@/components/MemoryReview.vue';
+import * as MemoryService from '@/services/MemoryService';
+import MemoryRecordReview from '@/models/MemoryRecordReview';
+import MemoryRecord from '@/models/MemoryRecord';
 
 const showMemoryDetailsButtonText = 'Show Memory Details';
 
 describe('The MemoryReview component', () => {
   it('should show the second Memory prompt when the Took too long resolution button is clicked.', async () => {
+    jest.spyOn(MemoryService, 'getMemories')
+      .mockImplementation(() => [
+        new MemoryRecordReview(
+          new MemoryRecord('this is the prompt', 'these are the details'),
+        ),
+        new MemoryRecordReview(
+          new MemoryRecord('This is the second memory prompt.', 'These are the second memory details'),
+        ),
+      ]);
     const { getByText, getByLabelText } = render(MemoryReview);
 
     const promptText = getByLabelText('Prompt');

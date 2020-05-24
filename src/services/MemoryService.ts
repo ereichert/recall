@@ -33,12 +33,13 @@ export async function addMemory(memoryRecord: MemoryRecord): Promise<number> {
 }
 
 export function getMemories(): MemoryRecordReview[] {
-  return [
-    new MemoryRecordReview(
-      new MemoryRecord('this is the prompt', 'these are the details'),
-    ),
-    new MemoryRecordReview(
-      new MemoryRecord('This is the second memory prompt.', 'These are the second memory details'),
-    ),
-  ];
+  // return [
+  //   new MemoryRecordReview(
+  //     new MemoryRecord('this is the prompt', 'these are the details'),
+  //   ),
+  //   new MemoryRecordReview(
+  //  new MemoryRecord('This is the second memory prompt.', 'These are the second memory details'),
+  //   ),
+  // ];
+  return [];
 }
