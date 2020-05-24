@@ -44,7 +44,7 @@ Test me
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import MemoryRecordReview from '@/models/MemoryRecordReview';
-import MemoryRecord from '../models/MemoryRecord';
+import * as MemoryService from '@/services/MemoryService';
 
 @Component
 export default class MemoryReview extends Vue {
@@ -56,19 +56,12 @@ export default class MemoryReview extends Vue {
 
   private shouldShowMemoryResolutionButtons = false;
 
-  private created(): void {
-    this.memoriesToBeReviewed = [
-      new MemoryRecordReview(
-        new MemoryRecord('this is the prompt', 'these are the details'),
-      ),
-      new MemoryRecordReview(
-        new MemoryRecord('This is the second memory prompt.', 'These are the second memory details'),
-      ),
-    ];
+  private memoriesToBeReviewed: Array<MemoryRecordReview> = [];
+
+  created(): void {
+    this.memoriesToBeReviewed = MemoryService.getMemories();
     this.currentMemoryRecord = this.memoriesToBeReviewed.shift();
   }
-
-  private memoriesToBeReviewed: Array<MemoryRecordReview> = [];
 
   private currentMemoryRecordPrompt(): string {
     let prompt = 'MISSING PROMPT';
