@@ -5,18 +5,20 @@ import MemoryRecordReview from '@/models/MemoryRecordReview';
 import MemoryRecord from '@/models/MemoryRecord';
 
 const showMemoryDetailsButtonText = 'Show Memory Details';
+// This array will be consumed within the component.
+// Copy it at the call site so that the tests use the copy and not the original array.
+const testMemoryRecordReview = [
+  new MemoryRecordReview(
+    new MemoryRecord('this is the prompt', 'these are the details'),
+  ),
+  new MemoryRecordReview(
+    new MemoryRecord('This is the second memory prompt.', 'These are the second memory details'),
+  ),
+];
 
 describe('The MemoryReview component', () => {
   it('should show the second Memory prompt when the Quick resolution button is clicked.', async () => {
-    jest.spyOn(MemoryService, 'getMemories')
-      .mockImplementation(() => [
-        new MemoryRecordReview(
-          new MemoryRecord('this is the prompt', 'these are the details'),
-        ),
-        new MemoryRecordReview(
-          new MemoryRecord('This is the second memory prompt.', 'These are the second memory details'),
-        ),
-      ]);
+    jest.spyOn(MemoryService, 'getMemories').mockImplementation(() => [...testMemoryRecordReview]);
     const { getByText, getByLabelText } = render(MemoryReview);
 
     const promptText = getByLabelText('Prompt');
@@ -32,15 +34,7 @@ describe('The MemoryReview component', () => {
   });
 
   it('should show the second Memory prompt when the A little slow resolution button is clicked.', async () => {
-    jest.spyOn(MemoryService, 'getMemories')
-      .mockImplementation(() => [
-        new MemoryRecordReview(
-          new MemoryRecord('this is the prompt', 'these are the details'),
-        ),
-        new MemoryRecordReview(
-          new MemoryRecord('This is the second memory prompt.', 'These are the second memory details'),
-        ),
-      ]);
+    jest.spyOn(MemoryService, 'getMemories').mockImplementation(() => [...testMemoryRecordReview]);
     const { getByText, getByLabelText } = render(MemoryReview);
 
     const promptText = getByLabelText('Prompt');
@@ -56,15 +50,7 @@ describe('The MemoryReview component', () => {
   });
 
   it('should show the second Memory prompt when the Took too long resolution button is clicked.', async () => {
-    jest.spyOn(MemoryService, 'getMemories')
-      .mockImplementation(() => [
-        new MemoryRecordReview(
-          new MemoryRecord('this is the prompt', 'these are the details'),
-        ),
-        new MemoryRecordReview(
-          new MemoryRecord('This is the second memory prompt.', 'These are the second memory details'),
-        ),
-      ]);
+    jest.spyOn(MemoryService, 'getMemories').mockImplementation(() => [...testMemoryRecordReview]);
     const { getByText, getByLabelText } = render(MemoryReview);
 
     const promptText = getByLabelText('Prompt');
@@ -130,7 +116,8 @@ describe('The MemoryReview component', () => {
     getByText(showMemoryDetailsButtonText);
   });
 
-  it('should should the prompt text of the first memory when memories exist.', () => {
+  it('should show the prompt text of the first memory when memories exist.', () => {
+    jest.spyOn(MemoryService, 'getMemories').mockImplementation(() => [...testMemoryRecordReview]);
     const { getByLabelText } = render(MemoryReview);
 
     const promptText = getByLabelText('Prompt');
