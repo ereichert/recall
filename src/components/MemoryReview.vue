@@ -3,40 +3,45 @@ Test me
 <template>
   <div>
     <h2>Memory Review</h2>
-    <div id='prompt-area'>
-      <label for='prompt-text'>Prompt</label>
-      <p id='prompt-text'>{{ currentMemoryRecordPrompt() }}</p>
-    </div>
-    <div id="details-area">
-      <div v-if="shouldShowMemoryDetails">
-        <label for='details-text'>Memory Details</label>
-        <p id='details-text'>{{ currentMemoryRecordDetails() }}</p>
+    <div v-if="shouldShowMemoryReview">
+      <div id='prompt-area'>
+        <label for='prompt-text'>Prompt</label>
+        <p id='prompt-text'>{{ currentMemoryRecordPrompt() }}</p>
+      </div>
+      <div id="details-area">
+        <div v-if="shouldShowMemoryDetails">
+          <label for='details-text'>Memory Details</label>
+          <p id='details-text'>{{ currentMemoryRecordDetails() }}</p>
+        </div>
+      </div>
+      <div id="control-area">
+        <div class="control-buttons" v-if="shouldShowMemoryDetailsButton">
+          <button
+            type="submit"
+            @click="showMemoryDetails"
+          >Show Memory Details</button>
+        </div>
+        <div class="control-buttons" v-if="shouldShowMemoryResolutionButtons">
+          <button
+            type="submit"
+            class="resolution-button"
+            @click="handleMemoryResolution"
+          >Took too long</button>
+          <button
+            type="submit"
+            class="resolution-button"
+            @click="handleMemoryResolution"
+          >A little slow</button>
+          <button
+            type="submit"
+            class="resolution-button"
+            @click="handleMemoryResolution"
+          >Quick</button>
+        </div>
       </div>
     </div>
-    <div id="control-area">
-      <div class="control-buttons" v-if="shouldShowMemoryDetailsButton">
-        <button
-          type="submit"
-          @click="showMemoryDetails"
-        >Show Memory Details</button>
-      </div>
-      <div class="control-buttons" v-if="shouldShowMemoryResolutionButtons">
-        <button
-          type="submit"
-          class="resolution-button"
-          @click="handleMemoryResolution"
-        >Took too long</button>
-        <button
-          type="submit"
-          class="resolution-button"
-          @click="handleMemoryResolution"
-        >A little slow</button>
-        <button
-          type="submit"
-          class="resolution-button"
-          @click="handleMemoryResolution"
-        >Quick</button>
-      </div>
+    <div v-if="shouldShowCongratulations">
+      <h1>Congratulations</h1>
     </div>
   </div>
 </template>
@@ -48,6 +53,10 @@ import * as MemoryService from '@/services/MemoryService';
 
 @Component
 export default class MemoryReview extends Vue {
+  private shouldShowMemoryReview = true;
+
+  private shouldShowCongratulations = false;
+
   private currentMemoryRecord: MemoryRecordReview | undefined = undefined;
 
   private shouldShowMemoryDetailsButton = true;
@@ -96,6 +105,10 @@ export default class MemoryReview extends Vue {
   private handleMemoryResolution(): void {
     this.currentMemoryRecord = this.memoriesToBeReviewed.shift();
     this.hideMemoryDetails();
+    if (!this.currentMemoryRecord) {
+      this.shouldShowMemoryReview = false;
+      this.shouldShowCongratulations = true;
+    }
   }
 }
 </script>

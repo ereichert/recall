@@ -17,6 +17,62 @@ const testMemoryRecordReview = [
 ];
 
 describe('The MemoryReview component', () => {
+  describe('should show the Congratulations view when there are no more MemoryRecordReviews', () => {
+    it('and the Quick resolution button is clicked.', async () => {
+      jest.spyOn(MemoryService, 'getMemories').mockImplementation(() => [...testMemoryRecordReview]);
+      const { getByText, getByLabelText } = render(MemoryReview);
+
+      const promptText = getByLabelText('Prompt');
+      expect(promptText.textContent).toEqual('this is the prompt');
+
+      const memoryDetailsButton = getByText(showMemoryDetailsButtonText);
+      await fireEvent.click(memoryDetailsButton);
+      const resolutionButton = getByText('Quick');
+      await fireEvent.click(resolutionButton);
+
+      await fireEvent.click(memoryDetailsButton);
+      await fireEvent.click(resolutionButton);
+
+      getByText('Congratulations');
+    });
+
+    it('and the A little slow resolution button is clicked.', async () => {
+      jest.spyOn(MemoryService, 'getMemories').mockImplementation(() => [...testMemoryRecordReview]);
+      const { getByText, getByLabelText } = render(MemoryReview);
+
+      const promptText = getByLabelText('Prompt');
+      expect(promptText.textContent).toEqual('this is the prompt');
+
+      const memoryDetailsButton = getByText(showMemoryDetailsButtonText);
+      await fireEvent.click(memoryDetailsButton);
+      const resolutionButton = getByText('A little slow');
+      await fireEvent.click(resolutionButton);
+
+      await fireEvent.click(memoryDetailsButton);
+      await fireEvent.click(resolutionButton);
+
+      getByText('Congratulations');
+    });
+
+    it('and the Took too long resolution button is clicked.', async () => {
+      jest.spyOn(MemoryService, 'getMemories').mockImplementation(() => [...testMemoryRecordReview]);
+      const { getByText, getByLabelText } = render(MemoryReview);
+
+      const promptText = getByLabelText('Prompt');
+      expect(promptText.textContent).toEqual('this is the prompt');
+
+      const memoryDetailsButton = getByText(showMemoryDetailsButtonText);
+      await fireEvent.click(memoryDetailsButton);
+      const resolutionButton = getByText('Took too long');
+      await fireEvent.click(resolutionButton);
+
+      await fireEvent.click(memoryDetailsButton);
+      await fireEvent.click(resolutionButton);
+
+      getByText('Congratulations');
+    });
+  });
+
   it('should show the second Memory prompt when the Quick resolution button is clicked.', async () => {
     jest.spyOn(MemoryService, 'getMemories').mockImplementation(() => [...testMemoryRecordReview]);
     const { getByText, getByLabelText } = render(MemoryReview);
