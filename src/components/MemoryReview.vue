@@ -19,20 +19,11 @@
             @click="showMemoryDetails"
           >Show Memory Details</button>
         </div>
-        <div class="control-buttons" v-if="shouldShowMemoryResolutionButtons">
-          <ResolutionButton
-            resolutionText="Took too long"
-            :onClick="handleMemoryResolution"
-          />
-          <ResolutionButton
-            resolutionText="A little slow"
-            :onClick="handleMemoryResolution"
-          />
-          <ResolutionButton
-            resolutionText="Quick"
-            :onClick="handleMemoryResolution"
-          />
-        </div>
+        <ResolutionControls
+          class="control-buttons"
+          v-if="shouldShowMemoryResolutionButtons"
+          :onResolution="handleMemoryResolution"
+        />
       </div>
     </div>
     <div v-if="shouldShowCongratulations">
@@ -45,11 +36,11 @@
 import { Component, Vue } from 'vue-property-decorator';
 import MemoryRecordReview from '@/models/MemoryRecordReview';
 import * as MemoryService from '@/services/MemoryService';
-import ResolutionButton from './ResolutionButton.vue';
+import ResolutionControls from './ResolutionControls.vue';
 
 @Component({
   components: {
-    ResolutionButton,
+    ResolutionControls,
   },
 })
 export default class MemoryReview extends Vue {
