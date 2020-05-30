@@ -1,14 +1,14 @@
 <template>
   <div>
-    <ResolutionButton
+    <ControlButton
       resolutionText="Took too long"
       :onClick="onResolution"
     />
-    <ResolutionButton
+    <ControlButton
       resolutionText="A little slow"
       :onClick="onResolution"
     />
-    <ResolutionButton
+    <ControlButton
       resolutionText="Quick"
       :onClick="onResolution"
     />
@@ -17,11 +17,11 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import ResolutionButton from './ResolutionButton.vue';
+import ControlButton from './ControlButton.vue';
 
 @Component({
   components: {
-    ResolutionButton,
+    ControlButton,
   },
 })
 export default class ResolutionControls extends Vue {

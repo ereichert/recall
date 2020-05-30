@@ -10,7 +10,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 
 @Component
-export default class ResolutionButton extends Vue {
+export default class ControlButton extends Vue {
   @Prop({ required: true })
   private readonly resolutionText!: string
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ResolutionButton
+    <ControlButton
       resolutionText="Show Memory Details"
       :onClick="onClick"
     />
@@ -9,11 +9,11 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import ResolutionButton from './ResolutionButton.vue';
+import ControlButton from './ControlButton.vue';
 
 @Component({
   components: {
-    ResolutionButton,
+    ControlButton,
   },
 })
 export default class MemoryDetailsControls extends Vue {
