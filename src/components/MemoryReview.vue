@@ -20,21 +20,18 @@
           >Show Memory Details</button>
         </div>
         <div class="control-buttons" v-if="shouldShowMemoryResolutionButtons">
-          <button
-            type="submit"
-            class="resolution-button"
-            @click="handleMemoryResolution"
-          >Took too long</button>
-          <button
-            type="submit"
-            class="resolution-button"
-            @click="handleMemoryResolution"
-          >A little slow</button>
-          <button
-            type="submit"
-            class="resolution-button"
-            @click="handleMemoryResolution"
-          >Quick</button>
+          <ResolutionButton
+            resolutionText="Took too long"
+            :onClick="handleMemoryResolution"
+          />
+          <ResolutionButton
+            resolutionText="A little slow"
+            :onClick="handleMemoryResolution"
+          />
+          <ResolutionButton
+            resolutionText="Quick"
+            :onClick="handleMemoryResolution"
+          />
         </div>
       </div>
     </div>
@@ -48,8 +45,13 @@
 import { Component, Vue } from 'vue-property-decorator';
 import MemoryRecordReview from '@/models/MemoryRecordReview';
 import * as MemoryService from '@/services/MemoryService';
+import ResolutionButton from './ResolutionButton.vue';
 
-@Component
+@Component({
+  components: {
+    ResolutionButton,
+  },
+})
 export default class MemoryReview extends Vue {
   private shouldShowMemoryReview = true;
 
@@ -129,8 +131,5 @@ export default class MemoryReview extends Vue {
     height: 100%;
     display: table-cell;
     vertical-align: middle;
-  }
-  .resolution-button {
-    width: 25%;
   }
 </style>
