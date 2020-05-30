@@ -1,5 +1,3 @@
-Test me
-
 <template>
   <div>
     <h2>Memory Review</h2>
