@@ -13,12 +13,11 @@
         </div>
       </div>
       <div id="control-area">
-        <div class="control-buttons" v-if="shouldShowMemoryDetailsButton">
-          <button
-            type="submit"
-            @click="showMemoryDetails"
-          >Show Memory Details</button>
-        </div>
+        <MemoryDetailsControls
+          class="control-buttons"
+          v-if="shouldShowMemoryDetailsButton"
+          :onClick="showMemoryDetails"
+        />
         <ResolutionControls
           class="control-buttons"
           v-if="shouldShowMemoryResolutionButtons"
@@ -37,10 +36,12 @@ import { Component, Vue } from 'vue-property-decorator';
 import MemoryRecordReview from '@/models/MemoryRecordReview';
 import * as MemoryService from '@/services/MemoryService';
 import ResolutionControls from './ResolutionControls.vue';
+import MemoryDetailsControls from './MemoryDetailsControls.vue';
 
 @Component({
   components: {
     ResolutionControls,
+    MemoryDetailsControls,
   },
 })
 export default class MemoryReview extends Vue {
