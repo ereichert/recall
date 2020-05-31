@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>Memory Review</h2>
-    <div v-if="shouldShowMemoryReview">
+    <div v-if="memoryReviewStateService.shouldShowMemoryReview">
       <div id='prompt-area'>
         <label for='prompt-text'>Prompt</label>
         <p id='prompt-text'>{{ currentMemoryRecordPrompt() }}</p>
@@ -25,7 +25,7 @@
         />
       </div>
     </div>
-    <div v-if="shouldShowCongratulations">
+    <div v-if="memoryReviewStateService.shouldShowCongratulations">
       <h1>Congratulations</h1>
     </div>
   </div>
@@ -35,6 +35,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import MemoryRecordReview from '@/models/MemoryRecordReview';
 import * as MemoryService from '@/services/MemoryService';
+import MemoryReviewStateService from '@/services/MemoryReviewStateService';
 import ResolutionControls from './ResolutionControls.vue';
 import MemoryDetailsControls from './MemoryDetailsControls.vue';
 
@@ -45,11 +46,7 @@ import MemoryDetailsControls from './MemoryDetailsControls.vue';
   },
 })
 export default class MemoryReview extends Vue {
-  private shouldShowMemoryReview = true;
-
-  private shouldShowCongratulations = false;
-
-  private currentMemoryRecord: MemoryRecordReview | undefined = undefined;
+  private currentMemoryRecordReview: MemoryRecordReview | undefined = undefined;
 
   private shouldShowMemoryDetailsButton = true;
 
@@ -59,18 +56,18 @@ export default class MemoryReview extends Vue {
 
   private memoriesToBeReviewed: Array<MemoryRecordReview> = [];
 
+  private memoryReviewStateService = new MemoryReviewStateService();
+
   created(): void {
     this.memoriesToBeReviewed = MemoryService.getMemories();
-    this.currentMemoryRecord = this.memoriesToBeReviewed.shift();
-    if (!this.currentMemoryRecord) {
-      this.showCongratulations();
-    }
+    this.currentMemoryRecordReview = this.memoriesToBeReviewed.shift();
+    this.memoryReviewStateService.transition(this.currentMemoryRecordReview);
   }
 
   private currentMemoryRecordPrompt(): string {
     let prompt = 'MISSING PROMPT';
-    if (this.currentMemoryRecord && this.currentMemoryRecord.memoryRecord) {
-      prompt = this.currentMemoryRecord.memoryRecord.prompt;
+    if (this.currentMemoryRecordReview && this.currentMemoryRecordReview.memoryRecord) {
+      prompt = this.currentMemoryRecordReview.memoryRecord.prompt;
     }
 
     return prompt;
@@ -78,8 +75,8 @@ export default class MemoryReview extends Vue {
 
   private currentMemoryRecordDetails(): string {
     let details = 'MISSING DETAILS';
-    if (this.currentMemoryRecord && this.currentMemoryRecord.memoryRecord) {
-      details = this.currentMemoryRecord.memoryRecord.details;
+    if (this.currentMemoryRecordReview && this.currentMemoryRecordReview.memoryRecord) {
+      details = this.currentMemoryRecordReview.memoryRecord.details;
     }
 
     return details;
@@ -98,16 +95,9 @@ export default class MemoryReview extends Vue {
   }
 
   private handleMemoryResolution(): void {
-    this.currentMemoryRecord = this.memoriesToBeReviewed.shift();
+    this.currentMemoryRecordReview = this.memoriesToBeReviewed.shift();
     this.hideMemoryDetails();
-    if (!this.currentMemoryRecord) {
-      this.showCongratulations();
-    }
-  }
-
-  private showCongratulations(): void {
-    this.shouldShowMemoryReview = false;
-    this.shouldShowCongratulations = true;
+    this.memoryReviewStateService.transition(this.currentMemoryRecordReview);
   }
 }
 </script>
