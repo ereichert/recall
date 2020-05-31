@@ -18,6 +18,13 @@ const testMemoryRecordReview = [
 
 describe('The MemoryReview component', () => {
   describe('should show the Congratulations view when there are no more MemoryRecordReviews', () => {
+    it('and the Memory Review is started.', async () => {
+      jest.spyOn(MemoryService, 'getMemories').mockImplementation(() => []);
+      const { getByText } = render(MemoryReview);
+
+      getByText('Congratulations');
+    });
+
     it('and the Quick resolution button is clicked.', async () => {
       jest.spyOn(MemoryService, 'getMemories').mockImplementation(() => [...testMemoryRecordReview]);
       const { getByText, getByLabelText } = render(MemoryReview);

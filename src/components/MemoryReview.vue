@@ -62,6 +62,9 @@ export default class MemoryReview extends Vue {
   created(): void {
     this.memoriesToBeReviewed = MemoryService.getMemories();
     this.currentMemoryRecord = this.memoriesToBeReviewed.shift();
+    if (!this.currentMemoryRecord) {
+      this.showCongratulations();
+    }
   }
 
   private currentMemoryRecordPrompt(): string {
@@ -98,9 +101,13 @@ export default class MemoryReview extends Vue {
     this.currentMemoryRecord = this.memoriesToBeReviewed.shift();
     this.hideMemoryDetails();
     if (!this.currentMemoryRecord) {
-      this.shouldShowMemoryReview = false;
-      this.shouldShowCongratulations = true;
+      this.showCongratulations();
     }
+  }
+
+  private showCongratulations(): void {
+    this.shouldShowMemoryReview = false;
+    this.shouldShowCongratulations = true;
   }
 }
 </script>
