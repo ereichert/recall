@@ -7,7 +7,7 @@
         <p id='prompt-text'>{{ currentMemoryRecordPrompt() }}</p>
       </div>
       <div id="details-area">
-        <div v-if="shouldShowMemoryDetails">
+        <div v-if="memoryReviewStateService.shouldShowMemoryDetails">
           <label for='details-text'>Memory Details</label>
           <p id='details-text'>{{ currentMemoryRecordDetails() }}</p>
         </div>
@@ -83,7 +83,10 @@ export default class MemoryReview extends Vue {
   }
 
   private showMemoryDetails(): void {
-    this.shouldShowMemoryDetails = true;
+    if (this.currentMemoryRecordReview) {
+      this.currentMemoryRecordReview.requestDetails();
+    }
+    this.memoryReviewStateService.transition(this.currentMemoryRecordReview);
     this.shouldShowMemoryDetailsButton = false;
     this.shouldShowMemoryResolutionButtons = true;
   }
