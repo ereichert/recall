@@ -15,7 +15,7 @@
       <div id="control-area">
         <MemoryDetailsControls
           class="control-buttons"
-          v-if="shouldShowMemoryDetailsButton"
+          v-if="memoryReviewStateService.shouldShowMemoryDetailsButton"
           :onClick="showMemoryDetails"
         />
         <ResolutionControls
@@ -47,10 +47,6 @@ import MemoryDetailsControls from './MemoryDetailsControls.vue';
 })
 export default class MemoryReview extends Vue {
   private currentMemoryRecordReview: MemoryRecordReview | undefined = undefined;
-
-  private shouldShowMemoryDetailsButton = true;
-
-  private shouldShowMemoryDetails = false;
 
   private shouldShowMemoryResolutionButtons = false;
 
@@ -87,13 +83,10 @@ export default class MemoryReview extends Vue {
       this.currentMemoryRecordReview.requestDetails();
     }
     this.memoryReviewStateService.transition(this.currentMemoryRecordReview);
-    this.shouldShowMemoryDetailsButton = false;
     this.shouldShowMemoryResolutionButtons = true;
   }
 
   private hideMemoryDetails(): void {
-    this.shouldShowMemoryDetails = false;
-    this.shouldShowMemoryDetailsButton = true;
     this.shouldShowMemoryResolutionButtons = false;
   }
 

@@ -22,6 +22,25 @@ describe('The MemoryReviewStateService', () => {
   });
 
   describe('when passed a MemoryRecordReview, transition', () => {
+    it('should unset shouldShowMemoryDetailsButton when details are requested.', () => {
+      const memoryReviewStateService = new MemoryReviewStateService();
+      const memoryRecordReview = new MemoryRecordReview(new MemoryRecord('', ''));
+      memoryRecordReview.requestDetails();
+
+      memoryReviewStateService.transition(memoryRecordReview);
+
+      expect(memoryReviewStateService.shouldShowMemoryDetailsButton).toBe(false);
+    });
+
+    it('should set shouldShowMemoryDetailsButton when details are not requested.', () => {
+      const memoryReviewStateService = new MemoryReviewStateService();
+      const memoryRecordReview = new MemoryRecordReview(new MemoryRecord('', ''));
+
+      memoryReviewStateService.transition(memoryRecordReview);
+
+      expect(memoryReviewStateService.shouldShowMemoryDetailsButton).toBe(true);
+    });
+
     it('should unset shouldShowMemoryDetails when details are not requested.', () => {
       const memoryReviewStateService = new MemoryReviewStateService();
       const memoryRecordReview = new MemoryRecordReview(new MemoryRecord('', ''));
