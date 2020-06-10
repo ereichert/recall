@@ -20,7 +20,7 @@
         />
         <ResolutionControls
           class="control-buttons"
-          v-if="shouldShowMemoryResolutionButtons"
+          v-if="memoryReviewStateService.shouldShowMemoryResolutionButtons"
           :onResolution="handleMemoryResolution"
         />
       </div>
@@ -47,8 +47,6 @@ import MemoryDetailsControls from './MemoryDetailsControls.vue';
 })
 export default class MemoryReview extends Vue {
   private currentMemoryRecordReview: MemoryRecordReview | undefined = undefined;
-
-  private shouldShowMemoryResolutionButtons = false;
 
   private memoriesToBeReviewed: Array<MemoryRecordReview> = [];
 
@@ -83,16 +81,13 @@ export default class MemoryReview extends Vue {
       this.currentMemoryRecordReview.requestDetails();
     }
     this.memoryReviewStateService.transition(this.currentMemoryRecordReview);
-    this.shouldShowMemoryResolutionButtons = true;
-  }
-
-  private hideMemoryDetails(): void {
-    this.shouldShowMemoryResolutionButtons = false;
   }
 
   private handleMemoryResolution(): void {
+    if (this.currentMemoryRecordReview) {
+      this.currentMemoryRecordReview.resolve();
+    }
     this.currentMemoryRecordReview = this.memoriesToBeReviewed.shift();
-    this.hideMemoryDetails();
     this.memoryReviewStateService.transition(this.currentMemoryRecordReview);
   }
 }

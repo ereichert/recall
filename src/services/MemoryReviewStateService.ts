@@ -7,6 +7,8 @@ export default class MemoryReviewStateService {
 
   private shouldShowMemDetailsButtons = true;
 
+  private shouldShowMemResolutionButtons = false;
+
   get shouldShowCongratulations(): boolean { return this.shouldShowCongrats; }
 
   get shouldShowMemoryReview(): boolean { return !this.shouldShowCongrats; }
@@ -15,11 +17,14 @@ export default class MemoryReviewStateService {
 
   get shouldShowMemoryDetailsButton(): boolean { return this.shouldShowMemDetailsButtons; }
 
+  get shouldShowMemoryResolutionButtons(): boolean { return this.shouldShowMemResolutionButtons; }
+
   transition(memoryRecordReview: MemoryRecordReview | undefined): void {
     if (memoryRecordReview) {
       this.shouldShowCongrats = false;
       this.shouldShowMemDetails = memoryRecordReview.areDetailsRequested;
       this.shouldShowMemDetailsButtons = !memoryRecordReview.areDetailsRequested;
+      this.shouldShowMemResolutionButtons = !memoryRecordReview.isResolved;
     } else {
       this.shouldShowCongrats = true;
     }
