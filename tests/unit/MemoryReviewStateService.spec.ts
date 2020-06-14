@@ -1,100 +1,80 @@
 import MemoryRecordReview from '@/models/MemoryRecordReview';
-import MemoryReviewStateService from '@/services/MemoryReviewStateService';
+import * as MemoryReviewStateService from '@/services/MemoryReviewStateService';
 import MemoryRecord from '@/models/MemoryRecord';
 
 describe('The MemoryReviewStateService', () => {
   describe('when passed an undefined MemoryRecordReview, transition', () => {
-    it('should set shouldShowCongratulations.', () => {
-      const memoryReviewStateService = new MemoryReviewStateService();
+    it('should set shouldShowCongrats.', () => {
+      const state = MemoryReviewStateService.transition(undefined);
 
-      memoryReviewStateService.transition(undefined);
-
-      expect(memoryReviewStateService.shouldShowCongratulations).toBe(true);
+      expect(state.shouldShowCongrats).toBe(true);
     });
 
     it('should unset shouldShowMemoryReview.', () => {
-      const memoryReviewStateService = new MemoryReviewStateService();
+      const state = MemoryReviewStateService.transition(undefined);
 
-      memoryReviewStateService.transition(undefined);
-
-      expect(memoryReviewStateService.shouldShowMemoryReview).toBe(false);
+      expect(state.shouldShowMemoryReview).toBe(false);
     });
   });
 
   describe('when passed a MemoryRecordReview, transition', () => {
-    it('should unset shouldShowMemoryResolutionButtons when the memory record review has been resolved.', () => {
-      const memoryReviewStateService = new MemoryReviewStateService();
-      const memoryRecordReview = new MemoryRecordReview(new MemoryRecord('', ''));
-      memoryRecordReview.requestDetails();
-      memoryRecordReview.resolve();
-
-      memoryReviewStateService.transition(memoryRecordReview);
-
-      expect(memoryReviewStateService.shouldShowMemoryResolutionButtons).toBe(false);
-    });
-
-    it('should set shouldShowMemoryResolutionButtons when details are requested.', () => {
-      const memoryReviewStateService = new MemoryReviewStateService();
+    it('should set shouldShowMemResolutionButtons when details are requested.', () => {
       const memoryRecordReview = new MemoryRecordReview(new MemoryRecord('', ''));
       memoryRecordReview.requestDetails();
 
-      memoryReviewStateService.transition(memoryRecordReview);
+      const state = MemoryReviewStateService.transition(memoryRecordReview);
 
-      expect(memoryReviewStateService.shouldShowMemoryResolutionButtons).toBe(true);
+      expect(state.shouldShowMemResolutionButtons).toBe(true);
     });
 
-    it('should unset shouldShowMemoryDetailsButton when details are requested.', () => {
-      const memoryReviewStateService = new MemoryReviewStateService();
+    it('should unset shouldShowMemDetailsButtons when details are requested.', () => {
       const memoryRecordReview = new MemoryRecordReview(new MemoryRecord('', ''));
       memoryRecordReview.requestDetails();
 
-      memoryReviewStateService.transition(memoryRecordReview);
+      const state = MemoryReviewStateService.transition(memoryRecordReview);
 
-      expect(memoryReviewStateService.shouldShowMemoryDetailsButton).toBe(false);
+      expect(state.shouldShowMemDetailsButtons).toBe(false);
     });
 
-    it('should set shouldShowMemoryDetailsButton when details are not requested.', () => {
-      const memoryReviewStateService = new MemoryReviewStateService();
+    it('should set shouldShowMemDetailsButtons when details are not requested.', () => {
       const memoryRecordReview = new MemoryRecordReview(new MemoryRecord('', ''));
 
-      memoryReviewStateService.transition(memoryRecordReview);
+      const state = MemoryReviewStateService.transition(memoryRecordReview);
 
-      expect(memoryReviewStateService.shouldShowMemoryDetailsButton).toBe(true);
+      expect(state.shouldShowMemDetailsButtons).toBe(true);
     });
 
-    it('should unset shouldShowMemoryDetails when details are not requested.', () => {
-      const memoryReviewStateService = new MemoryReviewStateService();
+    it('should unset shouldShowMemDetails when details are not requested.', () => {
       const memoryRecordReview = new MemoryRecordReview(new MemoryRecord('', ''));
 
-      memoryReviewStateService.transition(memoryRecordReview);
+      const state = MemoryReviewStateService.transition(memoryRecordReview);
 
-      expect(memoryReviewStateService.shouldShowMemoryDetails).toBe(false);
+      expect(state.shouldShowMemDetails).toBe(false);
     });
 
-    it('should set shouldShowMemoryDetails when details are requested.', () => {
-      const memoryReviewStateService = new MemoryReviewStateService();
+    it('should set shouldShowMemDetails when details are requested.', () => {
       const memoryRecordReview = new MemoryRecordReview(new MemoryRecord('', ''));
       memoryRecordReview.requestDetails();
 
-      memoryReviewStateService.transition(memoryRecordReview);
+      const state = MemoryReviewStateService.transition(memoryRecordReview);
 
-      expect(memoryReviewStateService.shouldShowMemoryDetails).toBe(true);
+      expect(state.shouldShowMemDetails).toBe(true);
     });
 
-    it('should unset shouldShowCongratulations.', () => {
-      const memoryReviewStateService = new MemoryReviewStateService();
+    it('should unset shouldShowCongrats.', () => {
+      const memoryRecordReview = new MemoryRecordReview(new MemoryRecord('', ''));
 
-      memoryReviewStateService.transition(new MemoryRecordReview(new MemoryRecord('', '')));
+      const state = MemoryReviewStateService.transition(memoryRecordReview);
 
-      expect(memoryReviewStateService.shouldShowCongratulations).toBe(false);
+      expect(state.shouldShowCongrats).toBe(false);
     });
 
     it('should set shouldShowMemoryReview.', () => {
-      const memoryReviewStateService = new MemoryReviewStateService();
+      const memoryRecordReview = new MemoryRecordReview(new MemoryRecord('', ''));
 
-      memoryReviewStateService.transition(new MemoryRecordReview(new MemoryRecord('', '')));
+      const state = MemoryReviewStateService.transition(memoryRecordReview);
 
-      expect(memoryReviewStateService.shouldShowMemoryReview).toBe(true);
+      expect(state.shouldShowMemoryReview).toBe(true);
     });
   });
 });

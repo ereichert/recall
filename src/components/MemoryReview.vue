@@ -1,13 +1,13 @@
 <template>
   <div>
     <h2>Memory Review</h2>
-    <div v-if="memoryReviewStateService.shouldShowMemoryReview">
+    <div v-if="memState.shouldShowMemoryReview">
       <div id='prompt-area'>
         <label for='prompt-text'>Prompt</label>
         <p id='prompt-text'>{{ currentMemoryRecordPrompt() }}</p>
       </div>
       <div id="details-area">
-        <div v-if="memoryReviewStateService.shouldShowMemoryDetails">
+        <div v-if="memState.shouldShowMemDetails">
           <label for='details-text'>Memory Details</label>
           <p id='details-text'>{{ currentMemoryRecordDetails() }}</p>
         </div>
@@ -15,17 +15,17 @@
       <div id="control-area">
         <MemoryDetailsControls
           class="control-buttons"
-          v-if="memoryReviewStateService.shouldShowMemoryDetailsButton"
+          v-if="memState.shouldShowMemDetailsButtons"
           :onClick="showMemoryDetails"
         />
         <ResolutionControls
           class="control-buttons"
-          v-if="memoryReviewStateService.shouldShowMemoryResolutionButtons"
+          v-if="memState.shouldShowMemResolutionButtons"
           :onResolution="handleMemoryResolution"
         />
       </div>
     </div>
-    <div v-if="memoryReviewStateService.shouldShowCongratulations">
+    <div v-if="memState.shouldShowCongrats">
       <h1>Congratulations</h1>
     </div>
   </div>
@@ -35,7 +35,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import MemoryRecordReview from '@/models/MemoryRecordReview';
 import * as MemoryService from '@/services/MemoryService';
-import MemoryReviewStateService from '@/services/MemoryReviewStateService';
+import * as MemoryReviewStateService from '@/services/MemoryReviewStateService';
 import ResolutionControls from './ResolutionControls.vue';
 import MemoryDetailsControls from './MemoryDetailsControls.vue';
 
@@ -50,12 +50,19 @@ export default class MemoryReview extends Vue {
 
   private memoriesToBeReviewed: Array<MemoryRecordReview> = [];
 
-  private memoryReviewStateService = new MemoryReviewStateService();
-
   created(): void {
     this.memoriesToBeReviewed = MemoryService.getMemories();
     this.currentMemoryRecordReview = this.memoriesToBeReviewed.shift();
-    this.memoryReviewStateService.transition(this.currentMemoryRecordReview);
+  }
+
+  private get memState(): MemoryReviewStateService.MemoryRecordReviewState {
+    if (this.currentMemoryRecordReview) {
+      if (this.currentMemoryRecordReview.isResolved) {
+        this.currentMemoryRecordReview = this.memoriesToBeReviewed.shift();
+      }
+    }
+
+    return MemoryReviewStateService.transition(this.currentMemoryRecordReview);
   }
 
   private currentMemoryRecordPrompt(): string {
@@ -80,15 +87,12 @@ export default class MemoryReview extends Vue {
     if (this.currentMemoryRecordReview) {
       this.currentMemoryRecordReview.requestDetails();
     }
-    this.memoryReviewStateService.transition(this.currentMemoryRecordReview);
   }
 
   private handleMemoryResolution(): void {
     if (this.currentMemoryRecordReview) {
       this.currentMemoryRecordReview.resolve();
     }
-    this.currentMemoryRecordReview = this.memoriesToBeReviewed.shift();
-    this.memoryReviewStateService.transition(this.currentMemoryRecordReview);
   }
 }
 </script>
