@@ -1,4 +1,5 @@
-import { render, fireEvent } from '@testing-library/vue';
+import { render, fireEvent, waitFor } from '@testing-library/vue';
+import '@testing-library/jest-dom';
 import MemoryReview from '@/components/MemoryReview.vue';
 import * as MemoryService from '@/services/MemoryService';
 import MemoryRecordReview from '@/models/MemoryRecordReview';
@@ -17,22 +18,24 @@ describe('The MemoryReview component', () => {
         new MemoryRecord('This is the second memory prompt.', 'These are the second memory details'),
       ),
     ];
-    jest.spyOn(MemoryService, 'getMemories').mockImplementation(() => testMemoryRecordReview);
+    jest.spyOn(MemoryService, 'getAllMemoryRecordReviews').mockImplementation(() => Promise.resolve(testMemoryRecordReview));
   });
 
   describe('should show the Congratulations view when there are no more MemoryRecordReviews', () => {
     it('and the Memory Review is started.', async () => {
       jest.clearAllMocks();
-      jest.spyOn(MemoryService, 'getMemories').mockImplementation(() => []);
+      jest.spyOn(MemoryService, 'getAllMemoryRecordReviews').mockImplementation(() => Promise.resolve([]));
       const { getByText } = render(MemoryReview);
 
-      getByText('Congratulations');
+      const congrats = await waitFor(() => getByText('Congratulations'));
+
+      expect(congrats).toBeInTheDocument();
     });
 
     it('and the Quick resolution button is clicked.', async () => {
       const { getByText, getByLabelText } = render(MemoryReview);
 
-      const promptText = getByLabelText('Prompt');
+      const promptText = await waitFor(() => getByLabelText('Prompt'));
       expect(promptText.textContent).toEqual('this is the prompt');
 
       const memoryDetailsButton = getByText(showMemoryDetailsButtonText);
@@ -43,13 +46,15 @@ describe('The MemoryReview component', () => {
       await fireEvent.click(memoryDetailsButton);
       await fireEvent.click(resolutionButton);
 
-      getByText('Congratulations');
+      const congrats = getByText('Congratulations');
+
+      expect(congrats).toBeInTheDocument();
     });
 
     it('and the A little slow resolution button is clicked.', async () => {
       const { getByText, getByLabelText } = render(MemoryReview);
 
-      const promptText = getByLabelText('Prompt');
+      const promptText = await waitFor(() => getByLabelText('Prompt'));
       expect(promptText.textContent).toEqual('this is the prompt');
 
       const memoryDetailsButton = getByText(showMemoryDetailsButtonText);
@@ -66,7 +71,7 @@ describe('The MemoryReview component', () => {
     it('and the Took too long resolution button is clicked.', async () => {
       const { getByText, getByLabelText } = render(MemoryReview);
 
-      const promptText = getByLabelText('Prompt');
+      const promptText = await waitFor(() => getByLabelText('Prompt'));
       expect(promptText.textContent).toEqual('this is the prompt');
 
       const memoryDetailsButton = getByText(showMemoryDetailsButtonText);
@@ -84,7 +89,7 @@ describe('The MemoryReview component', () => {
   it('should show the second Memory prompt when the Quick resolution button is clicked.', async () => {
     const { getByText, getByLabelText } = render(MemoryReview);
 
-    const promptText = getByLabelText('Prompt');
+    const promptText = await waitFor(() => getByLabelText('Prompt'));
     expect(promptText.textContent).toEqual('this is the prompt');
 
     const memoryDetailsButton = getByText(showMemoryDetailsButtonText);
@@ -99,7 +104,7 @@ describe('The MemoryReview component', () => {
   it('should show the second Memory prompt when the A little slow resolution button is clicked.', async () => {
     const { getByText, getByLabelText } = render(MemoryReview);
 
-    const promptText = getByLabelText('Prompt');
+    const promptText = await waitFor(() => getByLabelText('Prompt'));
     expect(promptText.textContent).toEqual('this is the prompt');
 
     const memoryDetailsButton = getByText(showMemoryDetailsButtonText);
@@ -114,7 +119,7 @@ describe('The MemoryReview component', () => {
   it('should show the second Memory prompt when the Took too long resolution button is clicked.', async () => {
     const { getByText, getByLabelText } = render(MemoryReview);
 
-    const promptText = getByLabelText('Prompt');
+    const promptText = await waitFor(() => getByLabelText('Prompt'));
     expect(promptText.textContent).toEqual('this is the prompt');
 
     const memoryDetailsButton = getByText(showMemoryDetailsButtonText);
@@ -128,31 +133,31 @@ describe('The MemoryReview component', () => {
 
   it('should show the second Memory resolution button when the Show Memory Details button is clicked.', async () => {
     const { getByText } = render(MemoryReview);
-    const memoryDetailsButton = getByText(showMemoryDetailsButtonText);
+    const memoryDetailsButton = await waitFor(() => getByText(showMemoryDetailsButtonText));
     await fireEvent.click(memoryDetailsButton);
 
-    getByText('Quick');
+    expect(getByText('Quick')).toBeInTheDocument();
   });
 
   it('should show the second Memory resolution button when the Show Memory Details button is clicked.', async () => {
     const { getByText } = render(MemoryReview);
-    const memoryDetailsButton = getByText(showMemoryDetailsButtonText);
+    const memoryDetailsButton = await waitFor(() => getByText(showMemoryDetailsButtonText));
     await fireEvent.click(memoryDetailsButton);
 
-    getByText('A little slow');
+    expect(getByText('A little slow')).toBeInTheDocument();
   });
 
   it('should show the first Memory resolution button when the Show Memory Details button is clicked.', async () => {
     const { getByText } = render(MemoryReview);
-    const memoryDetailsButton = getByText(showMemoryDetailsButtonText);
+    const memoryDetailsButton = await waitFor(() => getByText(showMemoryDetailsButtonText));
     await fireEvent.click(memoryDetailsButton);
 
-    getByText('Took too long');
+    expect(getByText('Took too long')).toBeInTheDocument();
   });
 
   it('should hide the Show Memory Details button when it is clicked.', async () => {
     const { getByText, queryByText } = render(MemoryReview);
-    const memoryDetailsButton = getByText(showMemoryDetailsButtonText);
+    const memoryDetailsButton = await waitFor(() => getByText(showMemoryDetailsButtonText));
 
     await fireEvent.click(memoryDetailsButton);
     const missingMemoryDetailsButton = queryByText(showMemoryDetailsButtonText);
@@ -165,33 +170,37 @@ describe('The MemoryReview component', () => {
 
     expect(queryAllByLabelText('Memory Details')).toHaveLength(0);
 
-    const memoryDetailsButton = getByText(showMemoryDetailsButtonText);
+    const memoryDetailsButton = await waitFor(() => getByText(showMemoryDetailsButtonText));
     await fireEvent.click(memoryDetailsButton);
 
     getByLabelText('Memory Details');
   });
 
-  it('should have a button for showing the memory details.', () => {
+  it('should have a button for showing the memory details.', async () => {
     const { getByText } = render(MemoryReview);
 
-    getByText(showMemoryDetailsButtonText);
+    const memoryDetailsButton = await waitFor(() => getByText(showMemoryDetailsButtonText));
+
+    await waitFor(() => expect(memoryDetailsButton).toBeInTheDocument);
   });
 
-  it('should show the prompt text of the first memory when memories exist.', () => {
+  it('should show the prompt text of the first memory when memories exist.', async () => {
     const { getByLabelText } = render(MemoryReview);
 
-    const promptText = getByLabelText('Prompt');
+    const promptText = await waitFor(() => getByLabelText('Prompt'));
 
     expect(promptText.textContent).toEqual('this is the prompt');
   });
 
-  it('should show the Prompt heading when Memories exist.', () => {
+  it('should show the Prompt heading when Memories exist.', async () => {
     const { getByText } = render(MemoryReview);
 
-    getByText('Prompt');
+    const prompt = await waitFor(() => getByText('Prompt'));
+
+    await waitFor(() => expect(prompt).toBeInTheDocument());
   });
 
-  it('should render.', () => {
+  it('should render.', async () => {
     render(MemoryReview);
   });
 });
