@@ -32,14 +32,8 @@ export async function addMemory(memoryRecord: MemoryRecord): Promise<number> {
     .then((statement) => statement.lastID);
 }
 
-export function getMemories(): MemoryRecordReview[] {
-  return [
-    new MemoryRecordReview(
-      new MemoryRecord('this is the prompt', 'these are the details'),
-    ),
-    new MemoryRecordReview(
-      new MemoryRecord('This is the second memory prompt.', 'These are the second memory details'),
-    ),
-  ];
-  // return [];
+export async function getAllMemoryRecordReviews(): Promise<MemoryRecordReview[]> {
+  const db = await dbPromise;
+  const memories = await db.all('SELECT * FROM memories;');
+  return memories.map((memoryRow) => new MemoryRecordReview(memoryRow));
 }
