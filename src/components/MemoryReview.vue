@@ -1,32 +1,34 @@
 <template>
   <div>
     <h2>Memory Review</h2>
-    <div v-if="memState.shouldShowMemoryReview">
-      <div id='prompt-area'>
-        <label for='prompt-text'>Prompt</label>
-        <p id='prompt-text'>{{ currentMemoryRecordPrompt() }}</p>
-      </div>
-      <div id="details-area">
-        <div v-if="memState.shouldShowMemDetails">
-          <label for='details-text'>Memory Details</label>
-          <p id='details-text'>{{ currentMemoryRecordDetails() }}</p>
+    <div v-if="memoriesToBeReviewedAreReady">
+      <div v-if="memState.shouldShowMemoryReview">
+        <div id='prompt-area'>
+          <label for='prompt-text'>Prompt</label>
+          <p id='prompt-text'>{{ currentMemoryRecordPrompt() }}</p>
+        </div>
+        <div id="details-area">
+          <div v-if="memState.shouldShowMemDetails">
+            <label for='details-text'>Memory Details</label>
+            <p id='details-text'>{{ currentMemoryRecordDetails() }}</p>
+          </div>
+        </div>
+        <div id="control-area">
+          <MemoryDetailsControls
+            class="control-buttons"
+            v-if="memState.shouldShowMemDetailsButtons"
+            :onClick="showMemoryDetails"
+          />
+          <ResolutionControls
+            class="control-buttons"
+            v-if="memState.shouldShowMemResolutionButtons"
+            :onResolution="handleMemoryResolution"
+          />
         </div>
       </div>
-      <div id="control-area">
-        <MemoryDetailsControls
-          class="control-buttons"
-          v-if="memState.shouldShowMemDetailsButtons"
-          :onClick="showMemoryDetails"
-        />
-        <ResolutionControls
-          class="control-buttons"
-          v-if="memState.shouldShowMemResolutionButtons"
-          :onResolution="handleMemoryResolution"
-        />
+      <div v-if="memState.shouldShowCongrats">
+        <h1>Congratulations</h1>
       </div>
-    </div>
-    <div v-if="memState.shouldShowCongrats">
-      <h1>Congratulations</h1>
     </div>
   </div>
 </template>
@@ -50,9 +52,12 @@ export default class MemoryReview extends Vue {
 
   private memoriesToBeReviewed: Array<MemoryRecordReview> = [];
 
-  created(): void {
-    this.memoriesToBeReviewed = MemoryService.getMemories();
+  private memoriesToBeReviewedAreReady = false;
+
+  async created(): Promise<void> {
+    this.memoriesToBeReviewed = await MemoryService.getAllMemoryRecordReviews();
     this.currentMemoryRecordReview = this.memoriesToBeReviewed.shift();
+    this.memoriesToBeReviewedAreReady = true;
   }
 
   private get memState(): MemoryReviewStateService.MemoryRecordReviewState {

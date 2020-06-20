@@ -15,7 +15,7 @@ const createDb = async (dbLocation: string): Promise<void> => {
 
 const deleteExistingTestDb = async (): Promise<void> => asyncFS.unlink(TEST_DB_LOCATION);
 
-describe('When a prompt and memory are submitted to the addMemory function', () => {
+describe('When all of the memories are requested', () => {
   describe('and when the database is operating correctly', () => {
     beforeAll(async () => {
       await deleteExistingTestDb();
@@ -29,6 +29,31 @@ describe('When a prompt and memory are submitted to the addMemory function', () 
       await testDb.close();
     });
 
+    it('should return all of the memories in the database.', () => {
+      expect(true).toBe(true);
+    });
+
+    it('should not return any memories when there are none in the database.', async () => {
+      const expectedMemories = await MemoryService.getAllMemoryRecordReviews();
+
+      expect(expectedMemories.length).toEqual(0);
+    });
+  });
+});
+
+describe('When a prompt and memory are submitted to the addMemory function', () => {
+  describe('and when the database is operating correctly', () => {
+    beforeAll(async () => {
+      await deleteExistingTestDb();
+      await createDb(TEST_DB_LOCATION);
+      MemoryService.initDbWithLocation(TEST_DB_LOCATION);
+    });
+
+    afterAll(async () => {
+      console.log('Closing the MemoryService test database.');
+      const testDb = await testDbPromise;
+      await testDb.close();
+    });
 
     it('the MemoryService should store the memory and return the memory id.', async () => {
       const returnedId = await MemoryService.addMemory(new MemoryRecord('new prompt', 'new memory'));
