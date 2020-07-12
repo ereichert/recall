@@ -1,15 +1,15 @@
 <template>
   <div>
     <ControlButton
-      resolutionText="Took too long"
+      displayText="Took too long"
       :onClick="onResolution"
     />
     <ControlButton
-      resolutionText="A little slow"
+      displayText="A little slow"
       :onClick="onResolution"
     />
     <ControlButton
-      resolutionText="Quick"
+      displayText="Quick"
       :onClick="onResolution"
     />
   </div>

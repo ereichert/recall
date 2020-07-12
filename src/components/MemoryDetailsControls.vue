@@ -1,7 +1,7 @@
 <template>
   <div>
     <ControlButton
-      resolutionText="Show Memory Details"
+      displayText="Show Memory Details"
       :onClick="onClick"
     />
   </div>

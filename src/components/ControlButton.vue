@@ -1,9 +1,9 @@
 <template>
   <button
     type="submit"
-    class="resolution-button"
+    class="control-button"
     @click="onClick"
-  >{{ resolutionText }}</button>
+  >{{ displayText }}</button>
 </template>
 
 <script lang="ts">
@@ -12,7 +12,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 @Component
 export default class ControlButton extends Vue {
   @Prop({ required: true })
-  private readonly resolutionText!: string
+  private readonly displayText!: string
 
   @Prop({ required: true })
   private readonly onClick!: Function
@@ -20,7 +20,7 @@ export default class ControlButton extends Vue {
 </script>
 
 <style scoped>
-  .resolution-button {
+  .control-button {
     width: 25%;
   }
 </style>
