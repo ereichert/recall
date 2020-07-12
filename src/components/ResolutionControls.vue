@@ -1,7 +1,7 @@
 <template>
   <div>
     <ControlButton
-      displayText="Took too long"
+      displayText="Quick"
       :onClick="onResolution"
     />
     <ControlButton
@@ -9,7 +9,7 @@
       :onClick="onResolution"
     />
     <ControlButton
-      displayText="Quick"
+      displayText="Took too long"
       :onClick="onResolution"
     />
   </div>
