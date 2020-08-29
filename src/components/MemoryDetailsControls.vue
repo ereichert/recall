@@ -1,14 +1,14 @@
 <template>
   <div>
     <ControlButton
-      resolutionText="Show Memory Details"
-      :onClick="onClick"
+      displayText="Show Memory Details"
+      @click="onClick"
     />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue, Emit } from 'vue-property-decorator';
 import ControlButton from './ControlButton.vue';
 
 @Component({
@@ -17,8 +17,11 @@ import ControlButton from './ControlButton.vue';
   },
 })
 export default class MemoryDetailsControls extends Vue {
-  @Prop({ required: true })
-  private readonly onClick!: Function
+  @Emit('show-details')
+  // eslint-disable-next-line class-methods-use-this
+  private onClick(): void {
+    console.log('MemoryDetails button clicked.');
+  }
 }
 </script>
 
