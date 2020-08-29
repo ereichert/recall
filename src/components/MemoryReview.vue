@@ -17,12 +17,12 @@
           <MemoryDetailsControls
             class="control-buttons"
             v-if="memState.shouldShowMemDetailsButtons"
-            :onClick="showMemoryDetails"
+            @show-details="showMemoryDetails"
           />
           <ResolutionControls
             class="control-buttons"
             v-if="memState.shouldShowMemResolutionButtons"
-            :onResolution="handleMemoryResolution"
+            @resolution="handleMemoryResolution"
           />
         </div>
       </div>
@@ -89,12 +89,14 @@ export default class MemoryReview extends Vue {
   }
 
   private showMemoryDetails(): void {
+    console.log('Showing memory details.');
     if (this.currentMemoryRecordReview) {
       this.currentMemoryRecordReview.requestDetails();
     }
   }
 
-  private handleMemoryResolution(): void {
+  private handleMemoryResolution(resolutionVal: number): void {
+    console.log(`Resolved with value ${resolutionVal}.`);
     if (this.currentMemoryRecordReview) {
       this.currentMemoryRecordReview.resolve();
     }

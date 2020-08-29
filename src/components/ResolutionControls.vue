@@ -2,21 +2,21 @@
   <div>
     <ControlButton
       displayText="Quick"
-      :onClick="onResolution"
+      @click="onResolution(3)"
     />
     <ControlButton
       displayText="A little slow"
-      :onClick="onResolution"
+      @click="onResolution(2)"
     />
     <ControlButton
       displayText="Took too long"
-      :onClick="onResolution"
+      @click="onResolution(1)"
     />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue, Emit } from 'vue-property-decorator';
 import ControlButton from './ControlButton.vue';
 
 @Component({
@@ -25,8 +25,12 @@ import ControlButton from './ControlButton.vue';
   },
 })
 export default class ResolutionControls extends Vue {
-  @Prop({ required: true })
-  private readonly onResolution!: Function
+  @Emit('resolution')
+  // eslint-disable-next-line class-methods-use-this
+  private onResolution(resolutionVal: number): number {
+    console.log(`ResolutionControl ${resolutionVal} clicked.`);
+    return resolutionVal;
+  }
 }
 </script>
 
